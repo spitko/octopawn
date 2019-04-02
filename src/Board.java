@@ -9,7 +9,7 @@ public class Board {
     private static final String h3 = String.valueOf(box[1]).repeat(3);
     private static final String VLINE = String.valueOf(box[0]);
     private final String TOPLINE, MIDLINE, BOTLINE;
-    private final int[][] board;
+    private int[][] board;
 
     public Board(int size) {
         TOPLINE = box[2] + (h3 + box[6]).repeat(size - 1) + h3 + box[3];
@@ -42,8 +42,15 @@ public class Board {
         }
         System.out.println(BOTLINE);
     }
-
     private String getRow(int[] ints) {
         return Arrays.stream(ints).mapToObj(i -> pieces[ints[i]]).collect(Collectors.joining(VLINE, VLINE, VLINE));
+    }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(int[][] newboard){
+        board = newboard;
     }
 }

@@ -9,7 +9,7 @@ public class Board {
     private static final String h3 = String.valueOf(box[1]).repeat(3);
     private static final String VLINE = String.valueOf(box[0]);
     private final String TOPLINE, MIDLINE, BOTLINE;
-    private int[][] board;
+    private final int[][] board;
 
     public Board(int size) {
         TOPLINE = box[2] + (h3 + box[6]).repeat(size - 1) + h3 + box[3];
@@ -33,6 +33,22 @@ public class Board {
                 .collect(Collectors.joining())).collect(Collectors.joining(System.lineSeparator()));
     }
 
+    public int[][] copyBoard() {
+        return Arrays.stream(board).map(int[]::clone).toArray(int[][]::new);
+    }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public static void printBoard(int[][] board) {
+        Arrays.stream(board).map(Arrays::toString).forEach(System.out::println);
+    }
+
+    public void move(Move move) {
+        Move.makeMove(board, move);
+    }
+
     public void printBoard() {
         System.out.println(TOPLINE);
         System.out.println(getRow(board[0]));
@@ -42,15 +58,15 @@ public class Board {
         }
         System.out.println(BOTLINE);
     }
+
+    public boolean over() {
+        return Arrays.stream(board[0]).anyMatch(i -> i == 2) ||
+                Arrays.stream(board[board.length - 1]).anyMatch(i -> i == 1);
+    }
+
     private String getRow(int[] ints) {
-        return Arrays.stream(ints).mapToObj(i -> pieces[ints[i]]).collect(Collectors.joining(VLINE, VLINE, VLINE));
+        return Arrays.stream(ints).mapToObj(i -> pieces[i]).collect(Collectors.joining(VLINE, VLINE, VLINE));
     }
 
-    public int[][] getBoard() {
-        return board;
-    }
 
-    public void setBoard(int[][] newboard){
-        board = newboard;
-    }
 }

@@ -9,7 +9,7 @@ public class OctoAI {
     public static Move BogdanMove(int[][] board, int player){
         List<Move> moves = Move.findMoves(board, player);
         Move choice = new Move(0,0,0,0);
-        if (player == 1){
+        if (player == 2){
             for (int i = 0; i < moves.size(); i++) {
                 if (moves.get(i).y2 == 0) {
                     choice = moves.get(i);
@@ -28,7 +28,7 @@ public class OctoAI {
                     return choice;
                 }
             }
-        }else if (player == 2){
+        }else if (player == 1){
             for (int i = 0; i < moves.size(); i++) {
                 if (moves.get(i).y2 == 3) {
                     choice = moves.get(i);

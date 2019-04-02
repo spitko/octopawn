@@ -18,8 +18,9 @@ public class Game {
         while (!gameOver()) {
             if (player == 1) {
                 moves = Move.findMoves(board.getBoard(), 1); // OctoAI.findMove()
-                Collections.shuffle(moves); //
-                move = moves.get(0); //
+                //Collections.shuffle(moves); //
+                //move = moves.get(0); //
+                move = OctoAI.BogdanMove(board.getBoard(), 1);
             } else {
                 moves = Move.findMoves(board.getBoard(), 2);
                 Collections.shuffle(moves);

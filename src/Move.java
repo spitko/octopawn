@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
 
 public class Move {
 
@@ -11,20 +13,9 @@ public class Move {
         this.y2 = y2;
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner("", Move.class.getSimpleName() + "[", ")]")
-                .add("(" + x1)
-                .add(", " + y1)
-                .add("), (" + x2)
-                .add(", " + y2)
-                .toString();
-    }
-
     public static void makeMove(int[][] board, Move move) {
         board[move.y2][move.x2] = board[move.y1][move.x1];
         board[move.y1][move.x1] = 0;
-
     }
 
     public static List<Move> findMoves(int[][] board, int player) {
@@ -46,5 +37,15 @@ public class Move {
             }
         }
         return moves;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner("", Move.class.getSimpleName() + "[", ")]")
+                .add("(" + x1)
+                .add(", " + y1)
+                .add("), (" + x2)
+                .add(", " + y2)
+                .toString();
     }
 }

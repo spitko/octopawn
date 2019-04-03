@@ -1,5 +1,7 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 // https://www.daniweb.com/programming/software-development/code/423640/unicode-chessboard-in-a-terminal
 public class Board {
@@ -17,6 +19,10 @@ public class Board {
         BOTLINE = box[4] + (h3 + box[7]).repeat(size - 1) + h3 + box[5];
         board = new int[size][size];
         reset();
+    }
+
+    public static void printBoard(int[][] board) {
+        Arrays.stream(board).map(Arrays::toString).forEach(System.out::println);
     }
 
     public void reset() {
@@ -41,12 +47,35 @@ public class Board {
         return board;
     }
 
-    public static void printBoard(int[][] board) {
-        Arrays.stream(board).map(Arrays::toString).forEach(System.out::println);
-    }
-
     public void move(Move move) {
         Move.makeMove(board, move);
+    }
+
+    public void printMoves(List<Move> moves) {
+        String[][] boardLines = moves.stream().map(this::getMove)
+                .map(s -> s.split(System.lineSeparator())).toArray(String[][]::new);
+        StringBuilder result = new StringBuilder();
+        IntStream.range(0, boardLines.length).forEach(i -> result.append(i + 1).append(" ".repeat(4 * board.length)));
+        result.append(System.lineSeparator());
+        for (int i = 0; i < boardLines[0].length; i++) {
+            for (String[] lines : boardLines) {
+                result.append(lines[i]);
+            }
+            result.append(System.lineSeparator());
+        }
+        System.out.println(result.toString());
+
+    }
+
+    public String getMove(Move move) {
+        Direction direction = Direction.getDirection(move);
+        StringBuilder string = getBoardString(copyBoard());
+        int index;
+        if (direction.isUp()) index = (8 * board.length + 4) * move.y1;
+        else index = (8 * board.length + 4) * (move.y1 + 1);
+        index += direction.getOffset() + move.x1 * 4;
+        string.setCharAt(index, direction.getArrow());
+        return string.toString();
     }
 
     public void printBoard() {
@@ -59,9 +88,22 @@ public class Board {
         System.out.println(BOTLINE);
     }
 
-    public boolean over() {
-        return Arrays.stream(board[0]).anyMatch(i -> i == 2) ||
-                Arrays.stream(board[board.length - 1]).anyMatch(i -> i == 1);
+    private StringBuilder getBoardString(int[][] board) {
+        StringBuilder stringBuilder = new StringBuilder(170);
+        stringBuilder.append(TOPLINE).append(System.lineSeparator());
+        stringBuilder.append(getRow(board[0])).append(System.lineSeparator());
+        for (int i = 1; i < board.length; i++) {
+            stringBuilder.append(MIDLINE).append(System.lineSeparator());
+            stringBuilder.append(getRow(board[i])).append(System.lineSeparator());
+        }
+        stringBuilder.append(BOTLINE).append(System.lineSeparator());
+        return stringBuilder;
+    }
+
+    public int getState() {
+        if (Arrays.stream(board[0]).anyMatch(i -> i == 2)) return 2;
+        if (Arrays.stream(board[board.length - 1]).anyMatch(i -> i == 1)) return 1;
+        return 0;
     }
 
     private String getRow(int[] ints) {

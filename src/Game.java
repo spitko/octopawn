@@ -1,85 +1,79 @@
-import java.util.Collections;
-import java.util.List;
+import java.util.Scanner;
 
 public class Game {
 
-    private Board board;
-    private int player;
-    private int difficulty;
+    private static final String firstPlayerWin = "       G A M E  O V E R\n" +
+            "================================\n" +
+            "|                              |\n" +
+            "|                              |\n" +
+            "|          PLAYER 1            |\n" +
+            "|            WINS              |\n" +
+            "|                              |\n" +
+            "|                              |\n" +
+            "================================";
 
-    public Game() {
-        board = new Board(4);
-        player = 1;
-        difficulty = 2;
+    private static final String secondPlayerWin = "       G A M E  O V E R\n" +
+            "================================\n" +
+            "|                              |\n" +
+            "|                              |\n" +
+            "|          PLAYER 2            |\n" +
+            "|            WINS              |\n" +
+            "|                              |\n" +
+            "|                              |\n" +
+            "================================";
+
+    private final Scanner scanner;
+    private Board board;
+    private int turn;
+    private int difficulty;
+    private Player firstPlayer;
+    private Player secondPlayer;
+
+    public Game(int playerCount, int boardSize, Scanner scanner) {
+        board = new Board(boardSize);
+        turn = 1;
+        this.scanner = scanner;
+        createPlayers(playerCount, scanner);
+
     }
 
-    public void play(){
-        startingMenu();
-        board.printBoard();
-        Move move;
-        List<Move> moves;
-        while (!gameOver()) {
-            if (player == 1) {
-                moves = Move.findMoves(board.getBoard(), 1); // OctoAI.findMove()
-                if (moves.isEmpty() || board.over()){
-                    System.out.println(
-                                    "================================\n" +
-                                    "|                              |\n" +
-                                    "|                              |\n" +
-                                    "|            BLACKS            |\n" +
-                                    "|             WON              |\n" +
-                                    "|                              |\n" +
-                                    "|                              |\n" +
-                                    "================================");
-                    break;
-                }
-                if (difficulty == 2){
-                    move = OctoAI.BogdanMove(board.getBoard(), 1);
-                }else{
-                    Collections.shuffle(moves); //
-                    move = moves.get(0); //
-                }
-            } else {
-                moves = Move.findMoves(board.getBoard(), 2);
-                if (moves.isEmpty() || board.over()){
-                    System.out.println(
-                                    "================================\n" +
-                                    "|                              |\n" +
-                                    "|                              |\n" +
-                                    "|            WHITES            |\n" +
-                                    "|             WON              |\n" +
-                                    "|                              |\n" +
-                                    "|                              |\n" +
-                                    "================================");
-                    break;
-                }
-                Collections.shuffle(moves);
-                move = moves.get(0);
-            }
-            System.out.println(moves);
-            System.out.println(move);
-            board.move(move);
-            player = 3 - player;
-            board.printBoard();
-            System.out.println(board);
+    private void createPlayers(int count, Scanner scanner) {
+        if (count > 0) {
+            firstPlayer = new HumanPlayer(1, scanner);
+            if (count > 1) {
+                secondPlayer = new HumanPlayer(2, scanner);
+            } else secondPlayer = new AIPlayer(2);
+        } else {
+            firstPlayer = new AIPlayer(1);
+            secondPlayer = new RandomPlayer(2);
         }
     }
 
-    public void startingMenu(){
-        System.out.println(
-                "================================\n" +
-                "|                              |\n" +
-                "|           WELCOME            |\n" +
-                "|             TO               |\n" +
-                "|           OCTOPAWN           |\n" +
-                "|                              |\n" +
-                "|                              |\n" +
-                "================================");
+    public void play() {
+        board.printBoard();
+        Move move;
+        int state = getState();
+        while (state == 0) {
+            if (turn == 1) move = firstPlayer.getMove(board);
+            else move = secondPlayer.getMove(board);
+            board.move(move);
+            turn = 3 - turn;
+            board.printBoard();
+            state = getState();
+        }
+        if (state == 1) System.out.println(firstPlayerWin);
+        if (state == 2) System.out.println(secondPlayerWin);
+        System.out.println("Type q to quit or type anything else to go again");
+        if (scanner.next().equals("q")) return;
+        board.reset();
+        play();
+
 
     }
 
-    private boolean gameOver() {
-        return board.over() || Move.findMoves(board.getBoard(), player).isEmpty();
+    private int getState() {
+        if (Move.findMoves(board.getBoard(), turn).size() == 0) return 3 - turn;
+        return board.getState();
     }
 
 }

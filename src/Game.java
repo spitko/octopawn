@@ -25,7 +25,6 @@ public class Game {
     private final Scanner scanner;
     private Board board;
     private int turn;
-    private int difficulty;
     private Player firstPlayer;
     private Player secondPlayer;
 

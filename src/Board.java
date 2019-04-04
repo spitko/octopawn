@@ -90,13 +90,13 @@ public class Board {
 
     private StringBuilder getBoardString(int[][] board) {
         StringBuilder stringBuilder = new StringBuilder(170);
-        stringBuilder.append(TOPLINE).append(System.lineSeparator());
-        stringBuilder.append(getRow(board[0])).append(System.lineSeparator());
+        stringBuilder.append(TOPLINE).append("\n");
+        stringBuilder.append(getRow(board[0])).append("\n");
         for (int i = 1; i < board.length; i++) {
-            stringBuilder.append(MIDLINE).append(System.lineSeparator());
-            stringBuilder.append(getRow(board[i])).append(System.lineSeparator());
+            stringBuilder.append(MIDLINE).append("\n");
+            stringBuilder.append(getRow(board[i])).append("\n");
         }
-        stringBuilder.append(BOTLINE).append(System.lineSeparator());
+        stringBuilder.append(BOTLINE).append("\n");
         return stringBuilder;
     }
 

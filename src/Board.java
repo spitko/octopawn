@@ -53,15 +53,15 @@ public class Board {
 
     public void printMoves(List<Move> moves) {
         String[][] boardLines = moves.stream().map(this::getMove)
-                .map(s -> s.split(System.lineSeparator())).toArray(String[][]::new);
+                .map(s -> s.split("\n")).toArray(String[][]::new);
         StringBuilder result = new StringBuilder();
         IntStream.range(0, boardLines.length).forEach(i -> result.append(i + 1).append(" ".repeat(4 * board.length)));
-        result.append(System.lineSeparator());
+        result.append("\n");
         for (int i = 0; i < boardLines[0].length; i++) {
             for (String[] lines : boardLines) {
                 result.append(lines[i]);
             }
-            result.append(System.lineSeparator());
+            result.append("\n");
         }
         System.out.println(result.toString());
 

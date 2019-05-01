@@ -1,9 +1,12 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
-public class Octopawn {
+public class Octopawn extends Application {
 
 
-    private static final String welcomeMessage =
+    /*private static final String welcomeMessage =
             "================================\n" +
                     "|                              |\n" +
                     "|           WELCOME            |\n" +
@@ -24,5 +27,10 @@ public class Octopawn {
         boardSize = scanner.nextInt();
         Game game = new Game(players, boardSize, scanner);
         game.play();
+    }*/
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.show();
     }
 }

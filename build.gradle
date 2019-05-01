@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClassName = "Octopawn"
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    
+}

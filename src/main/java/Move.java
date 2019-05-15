@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Move {
 
@@ -12,6 +12,18 @@ public class Move {
         this.x2 = x2;
         this.y2 = y2;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return x1 == move.x1 &&
+                y1 == move.y1 &&
+                x2 == move.x2 &&
+                y2 == move.y2;
+    }
+
 
     public static void makeMove(int[][] board, Move move) {
         board[move.y2][move.x2] = board[move.y1][move.x1];
@@ -37,6 +49,11 @@ public class Move {
             }
         }
         return moves;
+    }
+
+    public static List<Move> findMoves(Tile[][] board, int player) {
+        int[][] intBoard = Arrays.stream(board).map(t -> Arrays.stream(t).mapToInt(Tile::getPiece).toArray()).toArray(int[][]::new);
+        return findMoves(intBoard, player);
     }
 
     @Override

@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -6,7 +7,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Octopawn extends Application {
@@ -16,9 +16,10 @@ public class Octopawn extends Application {
         //Tugielementide ja nuppude lisamine paanile
         BorderPane pane = new BorderPane();
         FlowPane top = new FlowPane();
+        top.setPadding(new Insets(3));
+        top.setHgap(7);
         Label status = new Label();
-        Button player = new Button("Board Size:");
-        Label autorid = new Label("     Autorid: Samuel, Bogdan");
+        Label sizeLabel = new Label("Board Size:");
         Spinner<Integer> spinner = new Spinner<>(3, 10, 4);
         Button startButton = new Button("Start");
         //Stardinupule vajutamise käsk, mis loob ekraanile laua
@@ -27,7 +28,7 @@ public class Octopawn extends Application {
             status.textProperty().bind(board.getStatus());
             pane.setCenter(board);
         });
-        top.getChildren().addAll(player, spinner, startButton, status, autorid);
+        top.getChildren().addAll(sizeLabel, spinner, startButton, status);
         pane.setTop(top);
         return pane;
     }
@@ -35,7 +36,7 @@ public class Octopawn extends Application {
     //Pealava loomine, kasutades eeltehtud piiripaani
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(getMainPane(), 400, 400);
+        Scene scene = new Scene(getMainPane(), 420, 420);
         primaryStage.setTitle("Octopawn");
         primaryStage.setScene(scene);
 

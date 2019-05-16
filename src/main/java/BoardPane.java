@@ -14,7 +14,6 @@ public class BoardPane extends GridPane {
     private SimpleIntegerProperty player;
     private StringProperty status;
 
-    //Piiripaani võidukuvamine
     public BoardPane(int size) {
         super();
         player = new SimpleIntegerProperty(1);
@@ -22,7 +21,6 @@ public class BoardPane extends GridPane {
         StringConverter<Number> statusConverter = new StringConverter<>() {
             @Override
             public String toString(Number object) {
-                System.out.println(object);
                 switch (object.intValue()) {
                     case 1:
                         return "White to move";
@@ -43,7 +41,7 @@ public class BoardPane extends GridPane {
             }
         };
 
-        //Staatuse seostamine mängijatega
+        //Staatuse seosatamine mängijatega
         status.bindBidirectional(player, statusConverter);
 
         //Mänguväljaku loomine, suurusega vastavalt mängija poolt sisestatud valiku järgi
@@ -70,7 +68,7 @@ public class BoardPane extends GridPane {
         Arrays.stream(tiles[tiles.length - 1]).forEach(t -> t.setPiece(2));
     }
 
-    //Mänguväljaku ruudu valimine
+    //Mänguväljaku ruudu valimine sündmus
     private void onSelect(Tile tile) {
         if (player.get() < 0) {
             return;
@@ -108,7 +106,7 @@ public class BoardPane extends GridPane {
         }
     }
 
-    //Staatuse seisu tagastamine
+    //Staatuse tagastamine
     public StringProperty getStatus() {
         return status;
     }

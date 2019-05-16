@@ -25,16 +25,17 @@ public class Tile extends Button {
 
     //Mänguväljaku ruudu konstruktor koordinaatide ning ruudu pildiga
     public Tile(int x, int y) {
+        super();
         this.x = x;
         this.y = y;
         this.image = new ImageView();
 
+        this.image.setPreserveRatio(true);
         this.image.fitWidthProperty().bind(widthProperty());
         this.image.fitHeightProperty().bind(heightProperty());
-        this.image.setPreserveRatio(true);
 
-        setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        setMinSize(Double.MIN_VALUE, Double.MIN_VALUE);
 
         setGraphic(image);
         background = ((x + y) % 2 == 0) ? LIGHT : DARK;

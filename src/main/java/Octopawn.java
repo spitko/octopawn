@@ -4,9 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Octopawn extends Application {
@@ -18,9 +17,10 @@ public class Octopawn extends Application {
         FlowPane top = new FlowPane();
         top.setPadding(new Insets(3));
         top.setHgap(7);
+        top.setStyle("-fx-border-color : black; -fx-border-width : 0 0 1 0; ");
         Label status = new Label();
         Label sizeLabel = new Label("Board Size:");
-        Spinner<Integer> spinner = new Spinner<>(3, 10, 4);
+        Spinner<Integer> spinner = new Spinner<>(2, 10, 4);
         Button startButton = new Button("Start");
         //Stardinupule vajutamise käsk, mis loob ekraanile laua
         startButton.setOnAction(e -> {

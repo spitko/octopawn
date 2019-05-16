@@ -4,6 +4,12 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +36,8 @@ public class BoardPane extends GridPane {
                         return "White wins";
                     case -2:
                         return "Black wins";
+                    case 0:
+                        return "Error writing log";
                     default:
                         return "";
                 }
@@ -70,7 +78,7 @@ public class BoardPane extends GridPane {
 
     //Mänguväljaku ruudu valimine sündmus
     private void onSelect(Tile tile) {
-        if (player.get() < 0) {
+        if (player.get() <= 0) {
             return;
         }
         if (selected == null) {
@@ -103,6 +111,19 @@ public class BoardPane extends GridPane {
                 || Arrays.stream(tiles[tiles.length - 1]).anyMatch(i -> i.getPiece() == 1)
                 || Move.findMoves(tiles, player.getValue()).isEmpty()) {
             player.set(-3 - player.negate().get());
+            writeToLog();
+        }
+
+    }
+
+    private void writeToLog() {
+        try {
+            Files.write(Paths.get("octopawn_log.txt"),
+                    (new Timestamp(System.currentTimeMillis()) + "\t" + status.getValue() + "\n").getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            player.set(0);
         }
     }
 

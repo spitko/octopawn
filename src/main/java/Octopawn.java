@@ -21,6 +21,7 @@ public class Octopawn extends Application {
         Label status = new Label();
         Label sizeLabel = new Label("Board Size:");
         Spinner<Integer> spinner = new Spinner<>(2, 10, 4);
+        spinner.setPrefWidth(80);
         Button startButton = new Button("Start");
         //Stardinupule vajutamise käsk, mis loob ekraanile laua
         startButton.setOnAction(e -> {

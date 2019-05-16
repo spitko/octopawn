@@ -13,18 +13,21 @@ public class Octopawn extends Application {
 
     //Piiripaani loomine
     private Pane getMainPane() {
+        //Tugielementide ja nuppude lisamine paanile
         BorderPane pane = new BorderPane();
         FlowPane top = new FlowPane();
         Label status = new Label();
-        //Tugielementide ja nuppude lisamine
+        Button player = new Button("Board Size:");
+        Label autorid = new Label("     Autorid: Samuel, Bogdan");
         Spinner<Integer> spinner = new Spinner<>(3, 10, 4);
         Button startButton = new Button("Start");
+        //Stardinupule vajutamise käsk, mis loob ekraanile laua
         startButton.setOnAction(e -> {
             BoardPane board = new BoardPane(spinner.getValue());
             status.textProperty().bind(board.getStatus());
             pane.setCenter(board);
         });
-        top.getChildren().addAll(spinner, startButton, status);
+        top.getChildren().addAll(player, spinner, startButton, status, autorid);
         pane.setTop(top);
         return pane;
     }
@@ -32,7 +35,7 @@ public class Octopawn extends Application {
     //Pealava loomine, kasutades eeltehtud piiripaani
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(getMainPane(), 400, 400, Color.BLUE);
+        Scene scene = new Scene(getMainPane(), 400, 400);
         primaryStage.setTitle("Octopawn");
         primaryStage.setScene(scene);
 

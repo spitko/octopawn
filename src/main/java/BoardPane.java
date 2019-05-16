@@ -14,6 +14,7 @@ public class BoardPane extends GridPane {
     private SimpleIntegerProperty player;
     private StringProperty status;
 
+    //Piiripaani võidukuvamine
     public BoardPane(int size) {
         super();
         player = new SimpleIntegerProperty(1);
@@ -41,7 +42,11 @@ public class BoardPane extends GridPane {
                 return null;
             }
         };
+
+        //Staatuse seostamine mängijatega
         status.bindBidirectional(player, statusConverter);
+
+        //Mänguväljaku loomine, suurusega vastavalt mängija poolt sisestatud valiku järgi
         tiles = new Tile[size][size];
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
@@ -56,6 +61,7 @@ public class BoardPane extends GridPane {
         reset();
     }
 
+    //Mänguväljaku resettimine algseisu
     public void reset() {
         Arrays.stream(tiles[0]).forEach(t -> t.setPiece(1));
         for (int i = 1; i < tiles.length - 1; i++) {
@@ -64,6 +70,7 @@ public class BoardPane extends GridPane {
         Arrays.stream(tiles[tiles.length - 1]).forEach(t -> t.setPiece(2));
     }
 
+    //Mänguväljaku ruudu valimine
     private void onSelect(Tile tile) {
         if (player.get() < 0) {
             return;
@@ -85,12 +92,14 @@ public class BoardPane extends GridPane {
 
     }
 
+    //Nupu liikumine mänguväljakul
     private void makeMove(Tile previous, Tile next) {
         next.setPiece(previous.getPiece());
         previous.setPiece(0);
         checkWin();
     }
 
+    //Võidutingimuste kontroll
     private void checkWin() {
         if (Arrays.stream(tiles[0]).anyMatch(i -> i.getPiece() == 2)
                 || Arrays.stream(tiles[tiles.length - 1]).anyMatch(i -> i.getPiece() == 1)
@@ -99,7 +108,7 @@ public class BoardPane extends GridPane {
         }
     }
 
-
+    //Staatuse seisu tagastamine
     public StringProperty getStatus() {
         return status;
     }

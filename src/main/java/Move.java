@@ -6,12 +6,14 @@ public class Move {
 
     final int x1, y1, x2, y2;
 
+    //Liikumise konstruktor alg ning lõppkoordinaatidega
     public Move(int x1, int y1, int x2, int y2) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -30,6 +32,8 @@ public class Move {
         board[move.y1][move.x1] = 0;
     }
 
+
+    //Võimalike käikude otsija abimeetod
     public static List<Move> findMoves(int[][] board, int player) {
         List<Move> moves = new ArrayList<>();
         int fw, value, other;
@@ -51,11 +55,14 @@ public class Move {
         return moves;
     }
 
+    //Võimalike käikude otsija peameetod
     public static List<Move> findMoves(Tile[][] board, int player) {
         int[][] intBoard = Arrays.stream(board).map(t -> Arrays.stream(t).mapToInt(Tile::getPiece).toArray()).toArray(int[][]::new);
         return findMoves(intBoard, player);
     }
 
+
+    //Käigu toString
     @Override
     public String toString() {
         return new StringJoiner("", Move.class.getSimpleName() + "[", ")]")

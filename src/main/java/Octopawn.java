@@ -11,11 +11,12 @@ import javafx.stage.Stage;
 
 public class Octopawn extends Application {
 
-
+    //Piiripaani loomine
     private Pane getMainPane() {
         BorderPane pane = new BorderPane();
         FlowPane top = new FlowPane();
         Label status = new Label();
+        //Tugielementide ja nuppude lisamine
         Spinner<Integer> spinner = new Spinner<>(3, 10, 4);
         Button startButton = new Button("Start");
         startButton.setOnAction(e -> {
@@ -28,10 +29,10 @@ public class Octopawn extends Application {
         return pane;
     }
 
-
+    //Pealava loomine, kasutades eeltehtud piiripaani
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(getMainPane(), 400, 400, Color.SNOW);
+        Scene scene = new Scene(getMainPane(), 400, 400, Color.BLUE);
         primaryStage.setTitle("Octopawn");
         primaryStage.setScene(scene);
 

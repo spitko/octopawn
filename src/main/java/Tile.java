@@ -22,6 +22,8 @@ public class Tile extends Button {
     private int piece;
     private final ImageView image;
 
+
+    //Mänguväljaku ruudu konstruktor koordinaatide ning ruudu pildiga
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
@@ -40,7 +42,7 @@ public class Tile extends Button {
 
     }
 
-
+    //Ruudu getterid koordinaatide jaoks ja setterid nuppude jaoks
     public int getX() {
         return x;
     }
